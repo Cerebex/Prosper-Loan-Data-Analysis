@@ -1,4 +1,4 @@
-# Prosper-Loan-Data-Analysis
+# Prosper Loan Data Analysis
 
 In this project I reviewed a Prosper Loan data set containing 113,937 loans with 81 variables on each loan, including 
 loan amount, borrower rate (or interest rate), current loan status, 
