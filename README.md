@@ -13,7 +13,7 @@ understand how specific credit ratings and scores relate to borrowers
 characteristics. I hope I can provide you with some interesting insights 
 into the world of prosper loans by the end of this analysis.
 
-##Description of Files
+## Description of Files
 * Final_Project.html is the final knitted analysis
 * Final_Project.Rmd is the code for my R studio analysis
 * Prosper_Loan_Data_Variable_Definitions.xlsx give a description of each variable
