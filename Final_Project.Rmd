@@ -8,10 +8,10 @@ borrower income, borrower employment status, borrower credit history,
 and the latest payment information.
 
 I truly wanted to understand in my analysis which party benefits most in which
-situtations from prosper loans: Prosper, Investor or Borrower? How easy is it
-for an investor to truly loose all there money on a prosper loan? What loans
-are the most likely to make an investor are large return? I also want to
-understand how specific credit ratings and score relate to borrowers 
+situations from prosper loans: Prosper, Investor or Borrower? How easy is it
+for an investor to loose all there money on a prosper loan? What loans
+are the most likely to make an investor a large return? I also want to
+understand how specific credit ratings and scores relate to borrowers 
 characteristics. I hope I can provide you with some interesting insights 
 into the world of prosper loans by the end of this analysis.
 
@@ -20,9 +20,8 @@ knitr::opts_chunk$set(echo = FALSE,message=FALSE, warning=FALSE)
 ```
 
 ```{r, include = FALSE}
-setwd(paste("/Users/samuelmiller/Documents/Udacity/Data\ Analyst\ ",
-               "Nanodegree/Exploring\ and\ Summarizing\ Data/",
-               "EDA_Course_Materials/Final\ Project", sep=""))
+setwd(paste("/Users/samm/Documents/GitHub/Prosper-Loan-Data-Analysis", sep=""))
+
 library(ggplot2) #must load the ggplot package first
 library(dplyr)
 library(tidyr)
@@ -41,13 +40,13 @@ Loans <- read.csv('prosperLoanData.csv', header = T, check.names = F,
 
 ###Univariate Plots
 
-Size of Dataset and Data Types
+Size of Data set and Data Types
 
 ```{r Classes}
 str(Loans)
 ```
 
-Summary Stastics of Data
+Summary Statistics of Data
 
 ```{r}
 pander(summary(Loans))
@@ -68,7 +67,7 @@ ggplot(Loans, aes(CreditGrade))+
 Lower Credit Scores are mostly between 360 and 880. Some people have 0 for 
 their lower credit score since if you have a credit score lower than 350 it 
 is automatically set to zero. If you remove these 0 credit scores you are able 
-to see wierd areas around credit score 600-620 and 780-800 that do not 
+to see weird areas around credit score 600-620 and 780-800 that do not 
 have any scores. I do not understand these empty spaces but overall the
 distribution is normal. 
 
@@ -136,8 +135,8 @@ ggplot(Loans_Terms, aes(x= Term, y = Total_Count, label = Total_Count ))+
   geom_text(vjust = -.5)
 ```
 
-While there are many defualted or chargedoff loans, most loans are current
-or compeleted.
+While there are many defaulted or charged off loans, most loans are current
+or completed.
 
 ```{r}
 ggplot(Loans, aes(LoanStatus))+
@@ -269,7 +268,7 @@ Loans %>%
 
 There seems to be spikes in specific loan amounts which may stem from the way
 prosper creates loans. Also the distribution for prosper loans seems to be 
-positively skewed with a media nof $6500 and a maximum of $35000. 
+positively skewed with a media of $6500 and a maximum of $35000. 
 
 ```{r}
 grid.arrange(ggplot(subset(Loans, !is.na(LoanOriginalAmount)), 
@@ -397,7 +396,7 @@ summary(subset(Loans, !is.na(EmploymentStatus))
 ```
 
 The investment from friends seems to be very positively skewed. The 
-distribation is easier to see if it is placed on a a log scale.
+distribution is easier to see if it is placed on a a log scale.
 
 ```{r}
 grid.arrange(ggplot(subset(Loans, !is.na(InvestmentFromFriendsAmount)), 
@@ -426,7 +425,7 @@ grid.arrange(ggplot(subset(Loans, !is.na(InvestmentFromFriendsAmount)),
 
 ###Bivariate Plots
 
-Leading up to the 2008 financial crisis there seemed to be a large increas in
+Leading up to the 2008 financial crisis there seemed to be a large increase in
 defaulted loans. Those loans seemed to convert over to charged off loans after 
 2008 and these defaulted loans then increased in number up to around 2009
 where they slowly decreased in amount as completed loans greatly increased
@@ -442,8 +441,8 @@ ggplot(subset(Loans, !is.na(ClosedDate)),
 ```
 
 
-Most of the largely correlated items in the correlation matrix are interelated
-and do not shead large insights into relationships in the data alone.
+Most of the largely correlated items in the correlation matrix are interrelated
+and do not shed large insights into relationships in the data alone.
 
 ```{r}
 library("GGally")
@@ -499,7 +498,7 @@ tapply(Estimated_Total_Returnincash_sub$Total_Estimated_Return_Cash, Estimated_T
 
 It seems the highest estimated return in-terms of percent increases as loans 
 get higher risk with worst borrower credit rating, which makes sense since APR 
-increases aswell. This can be seen with a F value of 13792 with an extremely 
+increases as well. This can be seen with a F value of 13792 with an extremely 
 low p value between all pairs from an analysis of variance POST HOC test.
 
 ```{r}
@@ -537,7 +536,7 @@ Total_Returns_Completed_Sum <- Total_Returns_Completed %>%
 ```
 
 Of loans that are completed and not charged off or defaulted, the most return 
-on average actually comes from D CreditGrade grade loans with a mean value of 
+on average actually comes from D Credit-grade grade loans with a mean value of 
 $1293.00.
 
 ```{r}
@@ -564,7 +563,7 @@ tapply(Total_Returns_Completed_sub$TotalReturn,
        Total_Returns_Completed_sub$AllCreditGrades, summary)
 ```
 
-Seems Chargedoff loans truly began during the 2008 recession. 
+Seems Charged off loans truly began during the 2008 recession. 
 
 ```{r}
 
@@ -573,7 +572,7 @@ ggplot(subset(Loans, !is.na(ClosedDate)), aes(y = ClosedDate,
   geom_violin(  )
 ```
 
-Seems that people who chargeoff or defualt on their loans
+Seems that people who charge off or default on their loans
 have about the same median amount of current credit lines as those who complete 
 their loans.
 
@@ -590,9 +589,9 @@ tapply(CurrentCreditLines_sub$CurrentCreditLines,
 ```
 
 As you credit grade gets better your APR gets lower. This relationship is not 
-do to randomn variance based since these two varaibles have a F value of 55574
+do to random variance based since these two variables have a F value of 55574
 and extremely low p values for all pairs in a POST HOC test. Another important
-oberservation is that even with 
+observation is that even with 
 a specific credit
 grade there are a wide range of APR possible. Even with an HR credit grade an 
 borrower can get an loan APR around 0.00864. 
@@ -680,7 +679,7 @@ ggplot(subset(Before_and_After_2009_APR_difference,
 
 If you look closer at the HR loans estimated return, they may have negative 
 estimated returns in 2009 and 2010 but in normal economic times they are 
-ussually the highest estimated return.
+usually the highest estimated return.
 
 ```{r}
 
@@ -701,7 +700,7 @@ tapply(EstimatedReturn_HR_sub$EstimatedReturn,
        EstimatedReturn_HR_sub$ListingCreationDateYear, summary)
 ```
 
-Charged Off and Defualted loans tended to have a higher return estimate. Sadly, 
+Charged Off and Defaulted loans tended to have a higher return estimate. Sadly, 
 these loans most likely will not get paid off. 
 
 ```{r}
@@ -719,7 +718,7 @@ tapply(EstimatedReturn_LoanStatus_sub$EstimatedReturn,
        EstimatedReturn_LoanStatus_sub$LoanStatus, summary)
 ```
 
-Seems Prosper facilitates mostly debt consolidation loans to c credti grades.
+Seems Prosper facilitates mostly debt consolidation loans to c credit grades.
 
 
 ```{r}
@@ -758,7 +757,7 @@ ggplot(subset(BorrowerStateCounts, !is.na(BorrowerState)),
 ```
 
 Is seems that higher educated borrowers with higher paying jobs tend to have 
-higher Credit Grades but still alot of high paying jobs still have bad 
+higher Credit Grades but still a lot of high paying jobs still have bad 
 credit ratings.
 
 ```{r}
@@ -795,7 +794,7 @@ ggplot(Loans, aes(x = EmploymentStatus, y=..count.., fill = AllCreditGrades ))+
   coord_flip()
 ```
 
-It would seem higher the borrower's credit grade, the larger thier loan amount 
+It would seem higher the borrower's credit grade, the larger their loan amount 
 usually. On the other hand, the difference between NC and HR loan amount means 
 seems to not to be significant based upon a post hoc variance test. 
 It is also very interesting that the loan amount average is identical for AA, A 
@@ -840,7 +839,7 @@ ggplot(subset(Loans, !is.na(CreditScoreRangeLower)&
 ```
 
 Homemakers are the most likely to have a DebtToIncomeRatio of over 10-1. Is 
-this becuase it takes a large amount of capital to build a home before being
+this because it takes a large amount of capital to build a home before being
 able to sell it?
 
 ```{r}
@@ -886,7 +885,7 @@ ggplot(subset(Loans, !is.na(InvestmentFromFriendsAmount)&
 
 ###Multivariate Plots
 
-Charge-offs happened from people with a small to large number deliquences 
+Charge-offs happened from people with a small to large number deliquesces 
 in the last 7 years meaning number of delinquencies would not be the best 
 statistic to tell if someone was not going to pay there loans. 
 
@@ -978,7 +977,7 @@ ggplot(subset(Loans, LP_NetPrincipalLoss!=0), aes(x = StatedMonthlyIncome,
 As one looks closer at the Estimated Returns, one finds that borrowers with 
 lower credit grades have the potential to give higher returns in normal 
 prosperous economic times. On the other hand, in bad economic times they also 
-have the potential to yeild significantly lower to negative returns.
+have the potential to yield significantly lower to negative returns.
 
 ```{r}
 ggplot(subset(Loans, AllCreditGrades!="NC"&!is.na(AllCreditGrades)&
@@ -1040,9 +1039,9 @@ ggplot(subset(Loans, !is.na( CurrentCreditLines)&AllCreditGrades!="NC"&
   facet_wrap(~AllCreditGrades, ncol = 1)
 ```
 
-It seems the number of recommendations a borrower recieved did not play a large
+It seems the number of recommendations a borrower received did not play a large
 role in the Estimated Return from their loan on average. At the same time it 
-seems HR loans were alot more likely to have negative returns.  
+seems HR loans were a lot more likely to have negative returns.  
 
 ```{r}
 ggplot(subset(Loans, !is.na(Recommendations)&!is.na(EstimatedReturn)&
@@ -1114,9 +1113,9 @@ ggplot(subset(Before_and_After_2009_APR_difference,
 As one looks closer at the Estimated Returns, one finds that borrowers with 
 lower credit grades have the potential to give higher returns in normal 
 prosperous economic times. On the other hand, in bad economic times they also 
-have the potential to yeild significantly lower to negative returns. It is very 
+have the potential to yield significantly lower to negative returns. It is very 
 important for investors to truly understand how difficult it is to get their 
-money back at all if someones loan is chargedoff.
+money back at all if someones loan is charged-off.
 
 ```{r}
 ggplot(subset(Loans, AllCreditGrades!="NC"&!is.na(AllCreditGrades)&
@@ -1132,7 +1131,7 @@ ggplot(subset(Loans, AllCreditGrades!="NC"&!is.na(AllCreditGrades)&
 ```
 
 I wanted to better understand the shear magnitude of loses from charge-off 
-loans since I am guessing many investors who use the ebay for loans don't 
+loans since I am guessing many investors who use prosper for loans don't 
 really understand the huge risks of specific loans. If you add up all losses
 investors made from charge-off loans you find investors lost $20,313,392 
 including lining Prospers pockets with $1,159,688. I would make sure to 
@@ -1156,7 +1155,7 @@ they were more likely to invest more with a friend with a very lower credit
 grade of HR. Could this be since they feel sorry for their friend and loan
 them money purely since they think no one else would logically lend them
 money? I would love to be able to ask these people why they are loaning 
-there friend this a HR rating this money. 
+there friend with an HR rating this money. 
 
 ```{r}
 ggplot(subset(Loans, !is.na(InvestmentFromFriendsAmount) &
@@ -1172,25 +1171,23 @@ ggplot(subset(Loans, !is.na(InvestmentFromFriendsAmount) &
 
 ##Reflections
 
-I wished I could have had been given more background on each of the dataset's 
-variables. I truly tried to calculate how much money people overall made from
-all the loans but this was very difficult. I wanted to understand in general 
-the overall payout of all loans for investors on Prosper. Sadly this dataset 
-made this extremely difficult since I could not completely figure out how 
-the data was created. For example, listing number 150265 had a Net Principal 
-Loss of $7603.16 on a $20,000 laon but had non-principal recovery payments 
+I wished I could have had been given more background on each of the data set's 
+variables. The vagueness of the data set's variables made calculating 
+the overall payout of all loans for investors on Prosper very difficult.  
+For example, listing number 150265 had a Net Principal 
+Loss of $7603.16 on a $20,000 loan but had non-principal recovery payments 
 amounting to $21,117.90. How is this possible? 
 
-I would also love to have more data on the investors themselves. How much money 
+I would also have loved if the dataset had more data on the investors themselves. How much money 
 do these investors make a year and what background do they have in investing? 
-This could give me a better understanding on whether someone with no investing 
+Such data could give me a better understanding on whether someone with no investing 
 experience can make money investing on prosper loans or is more likely to lose
 large quantities of money. 
 
 Finally, I wish I had a way to compare prosper loan statistics to a normal
 banks loan statistics. I would love to understand how the lending practices
 differed between the two and if these differences changed the overall loan
-returns on average. Do banks refuse to lend out moeny to specific borrowers
+returns on average. Do banks refuse to lend out money to specific borrowers
 while prosper allows such loans since they still make money from facilitating
 extremely risky loans?
 
